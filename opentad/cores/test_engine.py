@@ -76,7 +76,14 @@ def eval_one_epoch(
             result_path = os.path.join(cfg.work_dir, "result_detection.json")
             with open(result_path, "w") as out:
                 json.dump(result_eval, out)
+        
+    #     result_path = os.path.join(cfg.work_dir, "result_detection.json")
 
+    # # # Load the JSON content
+    #     with open(result_path, "r") as infile:
+    #         result_eval = json.load(infile)
+    # result_path = os.path.join(cfg.work_dir, "result_detection.json")
+    # result_path = os.path.join(cfg.work_dir, "result_detection.json")
         if not not_eval:
             # build evaluator
             evaluator = build_evaluator(dict(prediction_filename=result_eval, **cfg.evaluation))

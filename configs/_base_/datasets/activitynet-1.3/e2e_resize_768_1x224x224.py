@@ -1,8 +1,8 @@
 dataset_type = "AnetResizeDataset"
-annotation_path = "data/activitynet-1.3/annotations/activity_net.v1-3.min.json"
-class_map = "data/activitynet-1.3/annotations/category_idx.txt"
-data_path = "data/activitynet-1.3/raw_data/Anet_videos_15fps_short256"
-block_list = "data/activitynet-1.3/raw_data/Anet_videos_15fps_short256/missing_files.txt"
+annotation_path = "/home/npoddar/Nishit/OpenTAD/data/mma_52_pdan.json"
+class_map = "/home/npoddar/Nishit/OpenTAD/data/activitynet-1.3/annotations/filtered_action_names.txt"
+data_path = "/data/stars/share/MMA-52/train"
+# block_list = "data/activitynet-1.3/raw_data/Anet_videos_15fps_short256/missing_files.txt"
 
 resize_length = 768
 
@@ -11,12 +11,11 @@ dataset = dict(
         type=dataset_type,
         ann_file=annotation_path,
         subset_name="training",
-        block_list=block_list,
         class_map=class_map,
         data_path=data_path,
         filter_gt=True,
         resize_length=resize_length,
-        class_agnostic=True,
+        class_agnostic=False,
         pipeline=[
             dict(type="PrepareVideoInfo", format="mp4", prefix="v_"),
             dict(type="mmaction.DecordInit", num_threads=4),
@@ -33,12 +32,11 @@ dataset = dict(
         type=dataset_type,
         ann_file=annotation_path,
         subset_name="validation",
-        block_list=block_list,
         class_map=class_map,
         data_path=data_path,
         filter_gt=True,
         resize_length=resize_length,
-        class_agnostic=True,
+        class_agnostic=False,
         pipeline=[
             dict(type="PrepareVideoInfo", format="mp4", prefix="v_"),
             dict(type="mmaction.DecordInit", num_threads=4),
@@ -55,13 +53,12 @@ dataset = dict(
         type=dataset_type,
         ann_file=annotation_path,
         subset_name="validation",
-        block_list=block_list,
         class_map=class_map,
         data_path=data_path,
         filter_gt=False,
         test_mode=True,
         resize_length=resize_length,
-        class_agnostic=True,
+        class_agnostic=False,
         pipeline=[
             dict(type="PrepareVideoInfo", format="mp4", prefix="v_"),
             dict(type="mmaction.DecordInit", num_threads=4),
@@ -80,6 +77,6 @@ evaluation = dict(
     type="mAP",
     subset="validation",
     tiou_thresholds=[0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8, 0.85, 0.9, 0.95],
-    ground_truth_filename=annotation_path,
-    blocked_videos="data/activitynet-1.3/annotations/blocked.json",
+    ground_truth_filename=annotation_path
+    # blocked_videos="data/activitynet-1.3/annotations/blocked.json",
 )

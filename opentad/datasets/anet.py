@@ -9,17 +9,21 @@ class AnetResizeDataset(ResizeDataset):
     def get_gt(self, video_info, thresh=0.01):
         gt_segment = []
         gt_label = []
-        for anno in video_info["annotations"]:
-            gt_start = float(anno["segment"][0])
-            gt_end = float(anno["segment"][1])
+        # print("Video info",video_info)
+        # print("Class map",self.class_map)
+        for anno in video_info["actions"]:
+            label, start_time, end_time = anno
+            gt_start = start_time
+            gt_end = end_time
             gt_scale = (gt_end - gt_start) / float(video_info["duration"])
-
+            # print("Gt label",gt_label)
+            # print("Class agnostic",self.class_agnostic)
             if (not self.filter_gt) or (gt_scale > thresh):
                 gt_segment.append([gt_start, gt_end])
                 if self.class_agnostic:
                     gt_label.append(0)
                 else:
-                    gt_label.append(self.class_map.index(anno["label"]))
+                    gt_label.append(label)
 
         if len(gt_segment) == 0:  # have no valid gt
             return None
@@ -32,10 +36,18 @@ class AnetResizeDataset(ResizeDataset):
 
     def __getitem__(self, index):
         video_name, video_info, video_anno = self.data_list[index]
-
+        # print(video_name)
+        if "val" in video_name:
+            video_name = video_name.removeprefix("val_")
+            self.data_path="/data/stars/share/MMA-52/val"
+        
+        elif "train" in video_name:
+            video_name = video_name.removeprefix("train_")
+            
+        # print(self.data_path)
         if video_anno != {}:
             video_anno = deepcopy(video_anno)  # avoid modify the original dict
-
+        # print("Video name",video_name)
         results = self.pipeline(
             dict(
                 video_name=video_name,
@@ -48,6 +60,8 @@ class AnetResizeDataset(ResizeDataset):
                 **video_anno,
             )
         )
+        print(results)
+        # exit()
         return results
 
 
@@ -60,6 +74,7 @@ class AnetPaddingDataset(PaddingDataset):
         gt_segment = []
         gt_label = []
         for anno in video_info["annotations"]:
+            
             gt_start = float(anno["segment"][0] * fps)
             gt_end = float(anno["segment"][1] * fps)
 

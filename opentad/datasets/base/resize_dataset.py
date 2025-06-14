@@ -43,7 +43,8 @@ class ResizeDataset:
 
     def get_dataset(self):
         with open(self.ann_file, "r") as f:
-            anno_database = json.load(f)["database"]
+            anno_database = json.load(f)
+        # print(anno_database.items())
 
         # some videos might be missed in the features or videos, we need to block them
         if self.block_list != None:

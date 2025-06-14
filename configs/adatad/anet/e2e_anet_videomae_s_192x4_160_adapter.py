@@ -107,7 +107,7 @@ model = dict(
     rpn_head=dict(
         in_channels=256,
         feat_channels=256,
-        num_classes=1,
+        num_classes=52,
         label_smoothing=0.1,
         loss_weight=2.0,
         loss_normalizer=200,
@@ -115,9 +115,9 @@ model = dict(
 )
 
 solver = dict(
-    train=dict(batch_size=16, num_workers=8),
-    val=dict(batch_size=16, num_workers=8),
-    test=dict(batch_size=16, num_workers=8),
+    train=dict(batch_size=32, num_workers=8),
+    val=dict(batch_size=32, num_workers=8),
+    test=dict(batch_size=32, num_workers=8),
     clip_grad_norm=1,
     amp=True,
     fp16_compress=True,
@@ -149,20 +149,20 @@ post_processing = dict(
         multiclass=False,
         voting_thresh=0.9,  #  set 0 to disable
     ),
-    external_cls=dict(
-        type="CUHKANETClassifier",
-        path="data/activitynet-1.3/classifiers/cuhk_val_simp_7.json",
-        topk=2,
-    ),
-    save_dict=False,
+    # external_cls=dict(
+    #     type="CUHKANETClassifier",
+    #     path="data/activitynet-1.3/classifiers/cuhk_val_simp_7.json",
+    #     topk=2,
+    # ),
+    save_dict=True,
 )
 
 workflow = dict(
-    logging_interval=200,
+    logging_interval=10,
     checkpoint_interval=1,
     val_loss_interval=-1,
     val_eval_interval=1,
-    val_start_epoch=8,
+    val_start_epoch=0,
 )
 
-work_dir = "exps/anet/adatad/e2e_actionformer_videomae_s_192x4_160_adapter"
+work_dir = "exps/anet/adatad/e2e_actionformer_videomae_s_192x4_160_adapter_val_checker_new_demo"

@@ -13,7 +13,7 @@ def train_one_epoch(
     logger,
     model_ema=None,
     clip_grad_l2norm=-1,
-    logging_interval=200,
+    logging_interval=10,
     scaler=None,
 ):
     """Training the model for one epoch"""
