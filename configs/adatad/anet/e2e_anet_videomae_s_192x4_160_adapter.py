@@ -3,7 +3,7 @@ _base_ = [
     "../../_base_/models/actionformer.py",  # model config
 ]
 
-resize_length = 192
+resize_length = 100
 scale_factor = 4
 chunk_num = resize_length * scale_factor // 16  # 768/16=48 chunks, since videomae takes 16 frames as input
 dataset = dict(
@@ -107,7 +107,7 @@ model = dict(
     rpn_head=dict(
         in_channels=256,
         feat_channels=256,
-        num_classes=52,
+        num_classes=1,
         label_smoothing=0.1,
         loss_weight=2.0,
         loss_normalizer=200,
@@ -149,11 +149,11 @@ post_processing = dict(
         multiclass=False,
         voting_thresh=0.9,  #  set 0 to disable
     ),
-    # external_cls=dict(
-    #     type="CUHKANETClassifier",
-    #     path="data/activitynet-1.3/classifiers/cuhk_val_simp_7.json",
-    #     topk=2,
-    # ),
+    external_cls=dict(
+        type="CUHKANETClassifier",
+        path="data/activitynet-1.3/classifiers/cuhk_val_simp_7.json",
+        topk=2,
+    ),
     save_dict=True,
 )
 

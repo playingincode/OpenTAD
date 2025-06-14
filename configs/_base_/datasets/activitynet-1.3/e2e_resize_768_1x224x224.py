@@ -4,7 +4,7 @@ class_map = "/home/npoddar/Nishit/OpenTAD/data/activitynet-1.3/annotations/filte
 data_path = "/data/stars/share/MMA-52/train"
 # block_list = "data/activitynet-1.3/raw_data/Anet_videos_15fps_short256/missing_files.txt"
 
-resize_length = 768
+resize_length = 400
 
 dataset = dict(
     train=dict(
@@ -15,7 +15,7 @@ dataset = dict(
         data_path=data_path,
         filter_gt=True,
         resize_length=resize_length,
-        class_agnostic=False,
+        class_agnostic=True,
         pipeline=[
             dict(type="PrepareVideoInfo", format="mp4", prefix="v_"),
             dict(type="mmaction.DecordInit", num_threads=4),
@@ -36,7 +36,7 @@ dataset = dict(
         data_path=data_path,
         filter_gt=True,
         resize_length=resize_length,
-        class_agnostic=False,
+        class_agnostic=True,
         pipeline=[
             dict(type="PrepareVideoInfo", format="mp4", prefix="v_"),
             dict(type="mmaction.DecordInit", num_threads=4),
@@ -58,7 +58,7 @@ dataset = dict(
         filter_gt=False,
         test_mode=True,
         resize_length=resize_length,
-        class_agnostic=False,
+        class_agnostic=True,
         pipeline=[
             dict(type="PrepareVideoInfo", format="mp4", prefix="v_"),
             dict(type="mmaction.DecordInit", num_threads=4),

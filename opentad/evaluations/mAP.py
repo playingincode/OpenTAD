@@ -80,9 +80,9 @@ class mAP:
             v_anno = remove_duplicate_annotations(v["actions"])
             # print("V annotations",v_anno)
             for ann in v_anno:
-            #     if ann not in activity_index:
-            #         activity_index[ann["label"]] = cidx
-            #         cidx += 1
+                # if ann not in activity_index:
+                #     activity_index[ann["label"]] = cidx
+                #     cidx += 1
                 videoid = videoid.removeprefix("val_")
                 video_lst.append(videoid)
                 t_start_lst.append(float(ann[1]))

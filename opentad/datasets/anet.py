@@ -13,6 +13,8 @@ class AnetResizeDataset(ResizeDataset):
         # print("Class map",self.class_map)
         for anno in video_info["actions"]:
             label, start_time, end_time = anno
+            print(label, start_time, end_time)
+            exit()
             gt_start = start_time
             gt_end = end_time
             gt_scale = (gt_end - gt_start) / float(video_info["duration"])
