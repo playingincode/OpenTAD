@@ -28,7 +28,11 @@ class EpicKitchensPaddingDataset(PaddingDataset):
 
     def __getitem__(self, index):
         video_name, video_info, video_anno = self.data_list[index]
-
+        # print("Video name",video_name)
+        # if "train" in video_name:
+        #     self.data_path="/data/stars/share/MMA-52/train"
+        # elif "val" in video_name:
+        #     self.data_path="/data/stars/share/MMA-52/val"
         if video_anno != {}:
             video_anno = deepcopy(video_anno)  # avoid modify the original dict
             video_anno["gt_segments"] = video_anno["gt_segments"] - self.offset_frames
@@ -73,7 +77,8 @@ class EpicKitchensSlidingDataset(SlidingWindowDataset):
 
     def __getitem__(self, index):
         video_name, video_info, video_anno, window_snippet_centers = self.data_list[index]
-
+        if "val" in video_name:
+            self.data_path="/data/stars/share/MMA-52/val"
         if video_anno != {}:
             video_anno = deepcopy(video_anno)  # avoid modify the original dict
             video_anno["gt_segments"] = video_anno["gt_segments"] - window_snippet_centers[0] - self.offset_frames

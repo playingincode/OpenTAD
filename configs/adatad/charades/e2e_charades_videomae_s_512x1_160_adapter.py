@@ -113,7 +113,7 @@ model = dict(
     ),
     neck=dict(num_levels=8),
     rpn_head=dict(
-        num_classes=157,
+        num_classes=52,
         prior_generator=dict(
             type="PointGenerator",
             strides=[1, 2, 4, 8, 16, 32, 64, 128],
@@ -123,9 +123,9 @@ model = dict(
 )
 
 solver = dict(
-    train=dict(batch_size=16, num_workers=4),
-    val=dict(batch_size=16, num_workers=4),
-    test=dict(batch_size=16, num_workers=4),
+    train=dict(batch_size=18, num_workers=4),
+    val=dict(batch_size=18, num_workers=4),
+    test=dict(batch_size=18, num_workers=4),
     clip_grad_norm=1,
     amp=True,
     fp16_compress=True,
@@ -145,7 +145,7 @@ optimizer = dict(
         exclude=["backbone"],
     ),
 )
-scheduler = dict(type="LinearWarmupCosineAnnealingLR", warmup_epoch=5, max_epoch=20)
+scheduler = dict(type="LinearWarmupCosineAnnealingLR", warmup_epoch=5, max_epoch=100)
 
 inference = dict(load_from_raw_predictions=False, save_raw_prediction=False)
 post_processing = dict(
@@ -162,11 +162,11 @@ post_processing = dict(
 )
 
 workflow = dict(
-    logging_interval=200,
+    logging_interval=10,
     checkpoint_interval=1,
     val_loss_interval=-1,
     val_eval_interval=1,
-    val_start_epoch=7,
+    val_start_epoch=0,
 )
 
-work_dir = "exps/charades/adatad/e2e_actionformer_videomae_s_512x1_160_adapter"
+work_dir = "exps/charades/adatad/e2e_actionformer_videomae_s_512x1_160_adapter_new"

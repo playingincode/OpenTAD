@@ -59,36 +59,33 @@ class mAP:
         activity_index : dict
             Dictionary containing class index.
         """
-        # print("Ground Truth Filename",ground_truth_filename)
-        # print(self.gt_fields)
         with open(ground_truth_filename, "r") as fobj:
             data = json.load(fobj)
         # Checking format
-        # if not all([field in list(data.keys()) for field in self.gt_fields]):
-        #     raise IOError("Please input a valid ground truth file.")
+        if not all([field in list(data.keys()) for field in self.gt_fields]):
+            raise IOError("Please input a valid ground truth file.")
 
         # Read ground truth data.
         activity_index, cidx = {}, 0
         video_lst, t_start_lst, t_end_lst, label_lst = [], [], [], []
-        for videoid, v in data.items():
+        for videoid, v in data["database"].items():
             if self.subset != v["subset"]:
                 continue
             if videoid in self.blocked_videos:
                 continue
 
             # remove duplicated instances following ActionFormer
-            v_anno = remove_duplicate_annotations(v["actions"])
-            # print("V annotations",v_anno)
+            v_anno = remove_duplicate_annotations(v["annotations"])
+
             for ann in v_anno:
-                # if ann not in activity_index:
-                #     activity_index[ann["label"]] = cidx
-                #     cidx += 1
-                videoid = videoid.removeprefix("val_")
+                if ann["label"] not in activity_index:
+                    activity_index[ann["label"]] = cidx
+                    cidx += 1
                 video_lst.append(videoid)
-                t_start_lst.append(float(ann[1]))
-                t_end_lst.append(float(ann[2]))
-                label_lst.append(ann[0])
-        
+                t_start_lst.append(float(ann["segment"][0]))
+                t_end_lst.append(float(ann["segment"][1]))
+                label_lst.append(activity_index[ann["label"]])
+
         ground_truth = pd.DataFrame(
             {
                 "video-id": video_lst,
@@ -97,17 +94,6 @@ class mAP:
                 "label": label_lst,
             }
         )
-        label_file ="/home/npoddar/Nishit/OpenTAD/data/activitynet-1.3/annotations/filtered_action_names.txt"
-
-# Read the file and strip whitespace
-        with open(label_file, "r") as f:
-            labels = [line.strip() for line in f if line.strip()]
-
-        # Create the mapping
-        activity_index = {label: idx for idx, label in enumerate(labels)}
-
-
-        # print("ground Truth",ground_truth.head())
         return ground_truth, activity_index
 
     def _import_prediction(self, prediction_filename):
@@ -125,7 +111,6 @@ class mAP:
             Data frame containing the prediction instances.
         """
         # if prediction_filename is a string, then json load
-        # print("Predicition_filename",prediction_filename)
         if isinstance(prediction_filename, str):
             with open(prediction_filename, "r") as fobj:
                 data = json.load(fobj)
@@ -165,7 +150,6 @@ class mAP:
                 "score": score_lst,
             }
         )
-        print("Predicition",prediction.head())
         return prediction
 
     def wrapper_compute_average_precision(self, cidx_list):

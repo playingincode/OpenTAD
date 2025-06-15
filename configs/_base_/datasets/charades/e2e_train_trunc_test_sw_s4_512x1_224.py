@@ -1,6 +1,6 @@
-annotation_path = "data/charades/annotations/charades.json"
-class_map = "data/charades/annotations/category_idx.txt"
-data_path = "data/charades/raw_data/Charades_v1_480_30fps/"
+annotation_path = "/home/npoddar/Nishit/OpenTAD/data/mma_52_true_updated.json"
+class_map = "/home/npoddar/Nishit/OpenTAD/data/activitynet-1.3/annotations/filtered_action_names.txt"
+data_path = "/data/stars/share/MMA-52/train"
 block_list = None
 
 window_size = 512

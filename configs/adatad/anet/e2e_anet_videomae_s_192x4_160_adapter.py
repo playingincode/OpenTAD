@@ -3,7 +3,7 @@ _base_ = [
     "../../_base_/models/actionformer.py",  # model config
 ]
 
-resize_length = 100
+resize_length = 96
 scale_factor = 4
 chunk_num = resize_length * scale_factor // 16  # 768/16=48 chunks, since videomae takes 16 frames as input
 dataset = dict(
@@ -115,9 +115,9 @@ model = dict(
 )
 
 solver = dict(
-    train=dict(batch_size=32, num_workers=8),
-    val=dict(batch_size=32, num_workers=8),
-    test=dict(batch_size=32, num_workers=8),
+    train=dict(batch_size=18, num_workers=8),
+    val=dict(batch_size=18, num_workers=8),
+    test=dict(batch_size=18, num_workers=8),
     clip_grad_norm=1,
     amp=True,
     fp16_compress=True,
@@ -165,4 +165,4 @@ workflow = dict(
     val_start_epoch=0,
 )
 
-work_dir = "exps/anet/adatad/e2e_actionformer_videomae_s_192x4_160_adapter_val_checker_new_demo"
+work_dir = "exps/anet/adatad/e2e_actionformer_videomae_s_192x4_160_adapter_val_checker_improving"
