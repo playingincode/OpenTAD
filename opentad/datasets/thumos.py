@@ -30,7 +30,7 @@ class ThumosSlidingDataset(SlidingWindowDataset):
 
     def __getitem__(self, index):
         video_name, video_info, video_anno, window_snippet_centers = self.data_list[index]
-
+        self.data_path="/data/stars/share/MMA-52/val"
         if video_anno != {}:
             video_anno = deepcopy(video_anno)  # avoid modify the original dict
             # frame divided by snippet stride inside current window

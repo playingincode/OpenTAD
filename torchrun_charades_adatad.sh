@@ -1,7 +1,7 @@
 #!/bin/bash
 #OAR -p gpu='YES' and host='nefgpu54.inria.fr'
-#OAR -l /nodes=1/gpunum=3,walltime=72:00:00
-#OAR --name adatad_charades
+#OAR -l /nodes=1/gpunum=2,walltime=72:00:00
+#OAR --name adatad_multi_thumos
 #OAR --stdout nef_logs/%jobname%.%jobid%.out
 #OAR --stderr nef_logs/%jobname%.%jobid%.err
 
@@ -22,4 +22,4 @@ export PATH="/home/npoddar/:$PATH"
 ffmpeg
 nvidia-smi || { echo "NVIDIA driver issue"; exit 1; }
 
-torchrun --nnodes=1 --nproc_per_node=3 --rdzv_backend=c10d --rdzv_endpoint=localhost:0 tools/train.py configs/adatad/charades/e2e_charades_videomae_s_512x1_160_adapter.py
+torchrun --nnodes=1 --nproc_per_node=2 --rdzv_backend=c10d --rdzv_endpoint=localhost:0 tools/train.py configs/adatad/multi_thumos/e2e_multithumos_videomae_s_768x1_160_adapter.py

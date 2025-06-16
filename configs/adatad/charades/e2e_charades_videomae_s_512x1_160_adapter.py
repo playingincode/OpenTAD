@@ -3,7 +3,7 @@ _base_ = [
     "../../_base_/models/actionformer.py",  # model config
 ]
 
-window_size = 512
+window_size = 384
 scale_factor = 1
 chunk_num = window_size * scale_factor // 16  # 512/16=32 chunks, since videomae takes 16 frames as input
 dataset = dict(
@@ -135,8 +135,8 @@ solver = dict(
 
 optimizer = dict(
     type="AdamW",
-    lr=1e-4,
-    weight_decay=0.05,
+    lr=1e-3,
+    weight_decay=0.005,
     paramwise=True,
     backbone=dict(
         lr=0,
@@ -158,7 +158,7 @@ post_processing = dict(
         multiclass=True,
         voting_thresh=0.7,  #  set 0 to disable
     ),
-    save_dict=False,
+    save_dict=True,
 )
 
 workflow = dict(
@@ -169,4 +169,4 @@ workflow = dict(
     val_start_epoch=0,
 )
 
-work_dir = "exps/charades/adatad/e2e_actionformer_videomae_s_512x1_160_adapter_new"
+work_dir = "exps/charades/adatad/e2e_actionformer_videomae_s_512x1_160_adapter_lr_window_changed_passive"

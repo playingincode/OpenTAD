@@ -1,6 +1,6 @@
-annotation_path = "data/multithumos/annotations/multithumos_anno.json"
-class_map = "data/multithumos/annotations/category_idx.txt"
-data_path = "data/thumos-14/raw_data/video"
+annotation_path = "/home/npoddar/Nishit/OpenTAD/data/mma_52_frame_duration_added_removed_double.json"
+class_map = "/home/npoddar/Nishit/OpenTAD/data/activitynet-1.3/annotations/filtered_action_names.txt"
+data_path = "/data/stars/share/MMA-52/train"
 block_list = None
 
 window_size = 256

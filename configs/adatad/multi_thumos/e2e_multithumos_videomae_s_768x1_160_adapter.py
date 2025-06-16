@@ -3,7 +3,7 @@ _base_ = [
     "../../_base_/models/actionformer.py",  # model config
 ]
 
-window_size = 768
+window_size = 224
 scale_factor = 1
 chunk_num = window_size * scale_factor // 16  # 768/16=48 chunks, since videomae takes 16 frames as input
 dataset = dict(
@@ -109,7 +109,7 @@ model = dict(
         max_seq_len=window_size,
         attn_cfg=dict(n_mha_win_size=-1),
     ),
-    rpn_head=dict(num_classes=65),
+    rpn_head=dict(num_classes=52),
 )
 
 solver = dict(
@@ -160,4 +160,4 @@ workflow = dict(
     end_epoch=80,
 )
 
-work_dir = "exps/multithumos/adatad/e2e_actionformer_videomae_s_768x1_160_adapter"
+work_dir = "exps/multithumos/adatad/e2e_actionformer_videomae_s_768x1_160_adapter_modified"
